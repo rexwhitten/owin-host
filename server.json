@@ -1,0 +1,5 @@
+﻿{
+   "name": "apistation",
+   "scanner": "enabled",
+   "scanner.path": "T:\\git\\modules"
+}
