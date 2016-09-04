@@ -7,6 +7,7 @@ namespace apistation.owin.Middleware
     using Depends;
     using Microsoft.Owin;
     using AppFunc = Func<IDictionary<string, object>, Task>;
+    using Microsoft.Owin.Security.OAuth;
 
     public class AuthMiddleware
     {
@@ -34,7 +35,7 @@ namespace apistation.owin.Middleware
             try
             {
                 IOwinContext context = new OwinContext(environment);
-
+                
                 if (_auth.IsAuthenticated(context.Request) == true)
                 {
                     await _next(environment); // continue

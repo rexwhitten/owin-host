@@ -12,6 +12,9 @@ namespace apistation.owin
 {
     using Commands;
     using Depends;
+    using Depends.Default;
+    using Microsoft.Owin.Security.Infrastructure;
+    using Microsoft.Owin.Security.OAuth;
     using Middleware;
     using Models;
     using Newtonsoft.Json;
@@ -23,6 +26,13 @@ namespace apistation.owin
     public class ApiStartup
     {
         private readonly string _baseUrl;
+        private static IChannel _globalChannel;
+
+        private static IChannel ApiGlobalChannel
+        {
+            get { return _globalChannel; }
+        }
+
 
         #region Constructors
         /// <summary>
@@ -50,6 +60,7 @@ namespace apistation.owin
             ObjectFactory.Register<ICache, DefaultCache>();
             ObjectFactory.Register<IChannel, DefaultChannel>();
             ObjectFactory.Register<IRouter, DefaultRouter>();
+            ObjectFactory.Register<IOAuth, DefaultOAuth>();
 
             // owin middleware
             app.Use(typeof(LogMiddleware), ObjectFactory.Resolve<ILog>());
@@ -86,6 +97,42 @@ namespace apistation.owin
                 return context.Response.WriteAsync(JsonConvert.SerializeObject(body));
             });
             #endregion
+
+            #region authentication
+            IOAuth oauth = ObjectFactory.Resolve<IOAuth>();
+            app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
+            {
+                AuthorizeEndpointPath = new PathString(ApiPathModel.AuthorizePath),
+                TokenEndpointPath = new PathString(ApiPathModel.TokenPath),
+                ApplicationCanDisplayErrors = true,
+                // Authorization server provider which controls the lifecycle of Authorization Server
+                Provider = new OAuthAuthorizationServerProvider
+                {
+                    OnValidateClientRedirectUri = oauth.ValidateClientRedirectUri,
+                    OnValidateClientAuthentication = oauth.ValidateClientAuthentication,
+                    OnGrantResourceOwnerCredentials = oauth.GrantResourceOwnerCredentials,
+                    OnGrantClientCredentials = oauth.GrantClientCredetails
+                },
+                // Authorization code provider which creates and receives the authorization code.
+                AuthorizationCodeProvider = new AuthenticationTokenProvider
+                {
+                    OnCreate = oauth.CreateAuthenticationCode,
+                    OnReceive = oauth.ReceiveAuthenticationCode,
+                },
+
+                // Refresh token provider which creates and receives refresh token.
+                RefreshTokenProvider = new AuthenticationTokenProvider
+                {
+                    OnCreate = oauth.CreateRefreshToken,
+                    OnReceive = oauth.ReceiveRefreshToken,
+                }
+            });
+            #endregion
+        }
+
+        private Task ValidateClientRedirectUri(OAuthValidateClientRedirectUriContext arg)
+        {
+            throw new NotImplementedException();
         }
     }
 }
