@@ -12,6 +12,7 @@ namespace apistation.owin
 {
     using Commands;
     using Depends;
+    using LightInject;
     using Middleware;
     using Models;
     using Newtonsoft.Json;
@@ -23,6 +24,7 @@ namespace apistation.owin
     public class ApiStartup
     {
         private readonly string _baseUrl;
+        internal static IServiceContainer Container = new ServiceContainer();
 
         #region Constructors
         /// <summary>
@@ -45,16 +47,16 @@ namespace apistation.owin
             #endregion
 
             #region  Composition of dependecies
-            ObjectFactory.Register<IAuth, DefaultAuth>();
-            ObjectFactory.Register<ILog, DefaultLog>();
-            ObjectFactory.Register<ICache, DefaultCache>();
-            ObjectFactory.Register<IChannel, DefaultChannel>();
-            ObjectFactory.Register<IRouter, DefaultRouter>();
+            Container.Register<IAuth, DefaultAuth>();
+            Container.Register<ILog, DefaultLog>();
+            Container.Register<ICache, DefaultCache>();
+            Container.Register<IChannel, DefaultChannel>();
+            Container.Register<IRouter, DefaultRouter>();
 
             // owin middleware
-            app.Use(typeof(LogMiddleware), ObjectFactory.Resolve<ILog>());
-            app.Use(typeof(AuthMiddleware), ObjectFactory.Resolve<IAuth>());
-            app.Use(typeof(EventEmitterMiddleware), ObjectFactory.Resolve<IChannel>());
+            app.Use(typeof(LogMiddleware), Container.GetInstance<ILog>());
+            app.Use(typeof(AuthMiddleware), Container.GetInstance<IAuth>());
+            app.Use(typeof(EventEmitterMiddleware), Container.GetInstance<IChannel>());
             #endregion
 
             #region  handles all api requests
@@ -63,9 +65,9 @@ namespace apistation.owin
 
             app.Run(context =>
             {
-                var cache = ObjectFactory.Resolve<ICache>();
-                var channel = ObjectFactory.Resolve<IChannel>();
-                var router = ObjectFactory.Resolve<IRouter>();
+                var cache = Container.Create<ICache>();
+                var channel = Container.Create<IChannel>();
+                var router = Container.Create<IRouter>();
                 var body = new Hashtable();
 
                 context.Response.StatusCode = 404; // default status code

@@ -33,6 +33,19 @@ namespace apistation.owin.Commands
                 body.Add("results", _cache.HashGet(context.Request.Path.Value, "@body"));
                 context.Response.StatusCode = 200;
             }
+            else
+            {
+                var result = _cache.HashGet(context.Request.Path.Value, "@body");
+                if(result == null || result.Count == 0)
+                {
+                    context.Response.StatusCode = 404;
+                }
+                else
+                {
+                    body.Add("results", result);
+                    context.Response.StatusCode = 200;
+                }
+            }
             return Task.FromResult(body);
             #endregion
         }

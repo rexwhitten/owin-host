@@ -6,11 +6,15 @@ using System.Threading.Tasks;
 using apistation.owin.Commands;
 using Microsoft.Owin;
 using System.Reflection;
+using LightInject;
+using apistation.owin.Support;
 
 namespace apistation.owin.Depends
 {
     public class DefaultRouter : IRouter
     {
+        private static IServiceContainer CommandContainer;
+
         private IDictionary<String, Type> _get;
         private IDictionary<String, Type> _put;
         private IDictionary<String, Type> _post;
@@ -54,9 +58,16 @@ namespace apistation.owin.Depends
             return command;
         }
 
+        /// <summary>
+        /// Find all Commands in the Assembly
+        /// </summary>
         private void StartCommandScan()
         {
-            Type[] commands = ObjectScanner.Scan<ICommand, CommandOptionsAttribute>();
+            /// locate the types
+            bool deepScan = true;
+            Type[] commands = TypeTree.Scan(typeof(ICommand), deepScan);
+
+            /// register the types in some graph
             foreach (var command in commands)
             {
                 var commandOptions = command.GetCustomAttributes<CommandOptionsAttribute>();
@@ -86,17 +97,16 @@ namespace apistation.owin.Depends
             var matchExpression = routeExpression.ToLower();
 
             // match algorithm
-            var matches = _routeDictionary
-                                    .Where(t => t.Key == "/*" || t.Key.ToLower().StartsWith(matchExpression));
+            var matches = _routeDictionary.Where(t => t.Key == "/*" || t.Key.ToLower().StartsWith(matchExpression));
 
             // match algorithm results
             if (matches.Any())
             {
                 var match = matches.First();
-                return (ICommand)Activator.CreateInstance(match.Value, ObjectFactory.Resolve<ICache>());
+                return (ICommand)Activator.CreateInstance(match.Value, ApiStartup.Container.Create<ICache>());
             }
 
-            return (ICommand)Activator.CreateInstance(defaultCommand.GetType(), ObjectFactory.Resolve<ICache>());
+            return (ICommand)Activator.CreateInstance(defaultCommand.GetType(), ApiStartup.Container.Create<ICache>());
         }
     }
 }

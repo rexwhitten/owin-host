@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LightInject, Version=4.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\LightInject.4.1.0\lib\net46\LightInject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
@@ -105,10 +109,9 @@
     <Compile Include="Middleware\EventEmitterMiddleware.cs" />
     <Compile Include="Middleware\LogMiddleware.cs" />
     <Compile Include="Models\EntryModel.cs" />
-    <Compile Include="ObjectFactory.cs" />
-    <Compile Include="ObjectScanner.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Support\TypeTree.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -117,9 +120,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Support\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
