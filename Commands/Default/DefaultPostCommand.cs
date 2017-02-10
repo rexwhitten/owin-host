@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Owin;
 using apistation.owin.Depends;
 using apistation.owin.Models;
+using Newtonsoft.Json.Linq;
 
 namespace apistation.owin.Commands
 {
@@ -34,8 +35,9 @@ namespace apistation.owin.Commands
                 {
                     default: 
                         var input = context.Request.Body.ReadAsString();
+
                         body.Add("result", _cache.HashSet(context.Request.Path.Value, new EntryModel[1] {
-                                            new EntryModel("@body", input)
+                                            new EntryModel("@body", JObject.Parse(input).ToString())
                                         }));
                         context.Response.StatusCode = 202;
                         break;

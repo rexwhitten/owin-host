@@ -13,6 +13,7 @@ namespace apistation.owin
     using Commands;
     using Depends;
     using Depends.Default;
+    using Depends.Local;
     using Microsoft.Owin.Security.Infrastructure;
     using Microsoft.Owin.Security.OAuth;
     using Middleware;
@@ -27,7 +28,6 @@ namespace apistation.owin
     {
         private readonly string _baseUrl;
         private static IChannel _globalChannel;
-
         private static IChannel ApiGlobalChannel
         {
             get { return _globalChannel; }
@@ -57,7 +57,7 @@ namespace apistation.owin
             #region  Composition of dependecies
             ObjectFactory.Register<IAuth, DefaultAuth>();
             ObjectFactory.Register<ILog, DefaultLog>();
-            ObjectFactory.Register<ICache, DefaultCache>();
+            ObjectFactory.Register<ICache, LocalCache>();
             ObjectFactory.Register<IChannel, DefaultChannel>();
             ObjectFactory.Register<IRouter, DefaultRouter>();
             ObjectFactory.Register<IOAuth, DefaultOAuth>();
