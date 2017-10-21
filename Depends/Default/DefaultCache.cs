@@ -1,31 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using apistation.owin.Models;
-using Newtonsoft.Json;
+﻿using apistation.owin.Models;
 using Newtonsoft.Json.Linq;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace apistation.owin.Depends
 {
     public class DefaultCache : ICache
     {
         #region static members
-        static Dictionary<string, JObject> _cache = new Dictionary<string, JObject>();
-        #endregion
+
+        private static Dictionary<string, JObject> _cache = new Dictionary<string, JObject>();
+
+        #endregion static members
 
         #region constructors
+
         public DefaultCache()
         {
-               
         }
-        #endregion
+
+        #endregion constructors
 
         public bool HashDelete(string uri, string field)
         {
-           return _cache.Remove(string.Format("{0}:{1}", uri, field));
+            return _cache.Remove(string.Format("{0}:{1}", uri, field));
         }
 
         public bool HashExists(string uri, string field)
@@ -38,7 +37,7 @@ namespace apistation.owin.Depends
             var tbl = new Hashtable();
             var results = _cache.Where(i => i.Key.StartsWith(uri));
 
-            foreach(var result in results)
+            foreach (var result in results)
             {
                 tbl.Add(result.Key, result.Value);
             }
@@ -48,9 +47,9 @@ namespace apistation.owin.Depends
 
         public bool HashSet(string uri, EntryModel[] hashEntry)
         {
-            foreach(var entry in hashEntry)
+            foreach (var entry in hashEntry)
             {
-                if(_cache.ContainsKey(string.Format("{0}:{1}", uri, entry.Field)))
+                if (_cache.ContainsKey(string.Format("{0}:{1}", uri, entry.Field)))
                 {
                     _cache[string.Format("{0}:{1}", uri, entry.Field)] = JObject.Parse(entry.Value);
                 }

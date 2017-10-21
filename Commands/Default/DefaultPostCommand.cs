@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Owin;
-using apistation.owin.Depends;
+﻿using apistation.owin.Depends;
 using apistation.owin.Models;
+using Microsoft.Owin;
+using System.Collections;
+using System.Threading.Tasks;
 
 namespace apistation.owin.Commands
 {
@@ -22,7 +18,6 @@ namespace apistation.owin.Commands
 
         public void Dispose()
         {
-            
         }
 
         public Task<Hashtable> Invoke(IOwinContext context)
@@ -32,7 +27,7 @@ namespace apistation.owin.Commands
             {
                 switch (context.Request.ContentType)
                 {
-                    default: 
+                    default:
                         var input = context.Request.Body.ReadAsString();
                         body.Add("result", _cache.HashSet(context.Request.Path.Value, new EntryModel[1] {
                                             new EntryModel("@body", input)

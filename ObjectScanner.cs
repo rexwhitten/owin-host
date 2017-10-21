@@ -1,23 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace apistation.owin
 {
     using System.Reflection;
-    using System.Runtime.Serialization;
 
     public class ObjectScanner
     {
         #region Ctor
-        internal ConstructorInfo DefaultConstructor(Type implementation) {
 
-            foreach(var ctor in implementation.GetConstructors())
+        internal ConstructorInfo DefaultConstructor(Type implementation)
+        {
+            foreach (var ctor in implementation.GetConstructors())
             {
                 var pars = ctor.GetParameters();
-                if(pars.Length == 0)
+                if (pars.Length == 0)
                 {
                     return ctor;
                 }
@@ -26,7 +23,8 @@ namespace apistation.owin
             return null;
         }
 
-        internal ConstructorInfo ParameterizedConstructor(Type implementation) {
+        internal ConstructorInfo ParameterizedConstructor(Type implementation)
+        {
             foreach (var ctor in implementation.GetConstructors())
             {
                 var pars = ctor.GetParameters();
@@ -38,7 +36,8 @@ namespace apistation.owin
 
             return null;
         }
-        #endregion
+
+        #endregion Ctor
 
         
         internal static Type[] Scan<TInterface, TAttributeType>() where TAttributeType : Attribute
@@ -65,7 +64,19 @@ namespace apistation.owin
                                 .Where(t => t.GetCustomAttributes(typeof(TAttributeType)).Any());
             return types.ToArray();
         }
+
+        /// <summary>
+        /// simple liskov search type inheritance
+        /// </summary>
+        /// <param name="child"></param>
+        /// <param name="parent"></param>
+        /// <param name="liskovSearch"></param>
+        /// <returns></returns>
+        internal static bool InheritsType(Type child, Type parent, bool liskovSearch)
+        {
+            var check = child.BaseType == parent;
+            if (check == true || liskovSearch == false) return check;
+            return InheritsType(child.BaseType, parent, liskovSearch);
+        }
     }
-
-
 }

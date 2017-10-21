@@ -1,6 +1,6 @@
 ﻿namespace apistation.owin.Commands
 {
-    public interface IGetCommand : ICommand
+    public interface IScriptCommand : ICommand
     {
     }
 }

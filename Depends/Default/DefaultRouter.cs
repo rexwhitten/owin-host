@@ -1,10 +1,8 @@
-﻿using System;
+﻿using apistation.owin.Commands;
+using Microsoft.Owin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using apistation.owin.Commands;
-using Microsoft.Owin;
 using System.Reflection;
 
 namespace apistation.owin.Depends
@@ -38,15 +36,19 @@ namespace apistation.owin.Depends
                 case "GET":
                     command = SelectCommand(_get, request.Path.Value, typeof(DefaultGetCommand));
                     break;
+
                 case "POST":
                     command = SelectCommand(_post, request.Path.Value, typeof(DefaultPostCommand));
                     break;
+
                 case "PUT":
                     command = SelectCommand(_put, request.Path.Value, typeof(DefaultPutCommand));
                     break;
+
                 case "DELETE":
                     command = SelectCommand(_delete, request.Path.Value, typeof(DefaultDeleteCommand));
                     break;
+
                 default:
                     break;
             }
@@ -67,12 +69,15 @@ namespace apistation.owin.Depends
                         case "get": // need type constraints
                             _get.Add(commandOptions.First().PathExpression, command);
                             break;
+
                         case "post": // need type constraints
                             _post.Add(commandOptions.First().PathExpression, command);
                             break;
+
                         case "put": // need type constraints
                             _put.Add(commandOptions.First().PathExpression, command);
                             break;
+
                         case "delete":// need type constraints
                             _delete.Add(commandOptions.First().PathExpression, command);
                             break;

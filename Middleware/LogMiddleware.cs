@@ -34,10 +34,10 @@ namespace apistation.owin.Middleware
             try
             {
                 IOwinContext context = new OwinContext(environment);
-                
+
                 _log.Log(string.Format("{0} {1}", context.Request.Method, context.Request.Path.Value.ToString()));
             }
-            catch(Exception x)
+            catch (Exception x)
             {
                 Console.WriteLine("Error in Log Middleware");
                 Console.WriteLine(x.Message);

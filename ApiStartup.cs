@@ -1,13 +1,10 @@
 ﻿using Microsoft.Owin;
 using Owin;
-using StackExchange.Redis;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 [assembly: OwinStartup(typeof(apistation.owin.ApiStartup))]
+
 namespace apistation.owin
 {
     using Commands;
@@ -16,12 +13,8 @@ namespace apistation.owin
     using Microsoft.Owin.Security.Infrastructure;
     using Microsoft.Owin.Security.OAuth;
     using Middleware;
-    using Models;
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
     using System.Collections;
-
-    using AppFunc = Func<IOwinContext, Task>;
 
     public class ApiStartup
     {
@@ -33,8 +26,8 @@ namespace apistation.owin
             get { return _globalChannel; }
         }
 
-
         #region Constructors
+
         /// <summary>
         /// api startup ctor
         /// </summary>
@@ -43,18 +36,22 @@ namespace apistation.owin
         {
             _baseUrl = baseUrl;
         }
-        #endregion
+
+        #endregion Constructors
 
         public void Configuration(IAppBuilder app)
         {
             #region welcome page
+
             app.UseWelcomePage(new Microsoft.Owin.Diagnostics.WelcomePageOptions()
             {
                 Path = new PathString("/welcome")
             });
-            #endregion
 
-            #region  Composition of dependecies
+            #endregion welcome page
+
+            #region Composition of dependecies
+
             ObjectFactory.Register<IAuth, DefaultAuth>();
             ObjectFactory.Register<ILog, DefaultLog>();
             ObjectFactory.Register<ICache, DefaultCache>();
@@ -66,12 +63,12 @@ namespace apistation.owin
             app.Use(typeof(LogMiddleware), ObjectFactory.Resolve<ILog>());
             app.Use(typeof(AuthMiddleware), ObjectFactory.Resolve<IAuth>());
             app.Use(typeof(EventEmitterMiddleware), ObjectFactory.Resolve<IChannel>());
-            #endregion
 
-            #region  handles all api requests
+            #endregion Composition of dependecies
+
+            #region handles all api requests
+
             // find modules (assemblies and load them)
-            
-
             app.Run(context =>
             {
                 var cache = ObjectFactory.Resolve<ICache>();
@@ -84,7 +81,7 @@ namespace apistation.owin
 
                 try
                 {
-                    // CQRS 
+                    // CQRS
                     ICommand command = router.Route(context.Request);
                     body = command.Invoke(context).Result;
                 }
@@ -96,9 +93,11 @@ namespace apistation.owin
 
                 return context.Response.WriteAsync(JsonConvert.SerializeObject(body));
             });
-            #endregion
+
+            #endregion handles all api requests
 
             #region authentication
+
             IOAuth oauth = ObjectFactory.Resolve<IOAuth>();
             app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
             {
@@ -127,7 +126,8 @@ namespace apistation.owin
                     OnReceive = oauth.ReceiveRefreshToken,
                 }
             });
-            #endregion
+
+            #endregion authentication
         }
 
         private Task ValidateClientRedirectUri(OAuthValidateClientRedirectUriContext arg)

@@ -1,22 +1,19 @@
 ﻿using System;
-using apistation.owin.Depends;
 using System.Collections.Generic;
 
 namespace apistation.owin
 {
-    using System.Reflection;
-    using Commands;
-
     /// <summary>
     /// ObjectFactory v1
     /// </summary>
     internal class ObjectFactory
     {
-        static Dictionary<Type, Type> _registry = new Dictionary<Type, Type>();
-        static Dictionary<string, Dictionary<Type,Object>> _instances = new Dictionary<string, Dictionary<Type, Object>>();
+        private static IDictionary<Type, Type> _registry = new Dictionary<Type, Type>();
+        private static IDictionary<string, Dictionary<Type, Object>> _instances = new Dictionary<string, Dictionary<Type, Object>>();
 
         #region Utility
-        static bool IsRegistered<TInterface, TImplementation>()
+
+        private static bool IsRegistered<TInterface, TImplementation>()
         {
             var intType = typeof(TInterface);
             var impType = typeof(TImplementation);
@@ -24,13 +21,11 @@ namespace apistation.owin
             if (_registry.ContainsKey(intType)) return true;
             return false;
         }
-        #endregion
 
-        #region Activation 
-        
-        #endregion
+        #endregion Utility
 
         #region Type Resolution
+
         internal static object Resolve(Type interfaceType)
         {
             // Argument Validation
@@ -40,11 +35,11 @@ namespace apistation.owin
 
             return ResolveType(interfaceType);
         }
-        
+
         internal static TInterface Resolve<TInterface>()
         {
             Type interfaceType = typeof(TInterface);
-           // Argument Validation
+            // Argument Validation
             if (interfaceType == null) throw new ArgumentException("InterfaceType");
 
             if (!_registry.ContainsKey(interfaceType)) throw new TypeInitializationException(interfaceType.FullName, new ArgumentException("InterfaceType was not registered"));
@@ -52,7 +47,7 @@ namespace apistation.owin
             return (TInterface)ResolveType(interfaceType);
         }
 
-        static object ResolveType(Type interfaceType)
+        private static object ResolveType(Type interfaceType)
         {
             var rtype = interfaceType;
 
@@ -84,13 +79,15 @@ namespace apistation.owin
             return (TInterface)ActivateType(implementation);
         }
 
-        static object ActivateType(Type interfaceType, params object[] args)
+        private static object ActivateType(Type interfaceType, params object[] args)
         {
             return Activator.CreateInstance(_registry[interfaceType], args);
         }
-        #endregion
+
+        #endregion Type Resolution
 
         #region Type Registration
+
         internal static void Register<TInterface, TImplementation>() where TImplementation : TInterface
         {
             if (_registry.ContainsKey(typeof(TInterface)))
@@ -102,21 +99,23 @@ namespace apistation.owin
                 _registry[typeof(TInterface)] = typeof(TImplementation);
             }
         }
-        #endregion
+
+        #endregion Type Registration
 
         #region Instance Management
+
         internal static void Instance<TInterface, TImplementation>(string name) where TImplementation : TInterface
         {
             if (name == null || name == string.Empty) throw new ArgumentException("name");
 
-            if(!_instances.ContainsKey(name))
+            if (!_instances.ContainsKey(name))
             {
                 _instances.Add(name, new Dictionary<Type, object>());
             }
 
-            if(!_instances[name].ContainsKey(typeof(TInterface)))
+            if (!_instances[name].ContainsKey(typeof(TInterface)))
             {
-                 ObjectFactory.Register<TInterface, TImplementation>();
+                ObjectFactory.Register<TInterface, TImplementation>();
 
                 _instances[name].Add(typeof(TInterface), ObjectFactory.Resolve<TInterface>());
             }
@@ -138,6 +137,7 @@ namespace apistation.owin
 
             return (TInterface)_instances[name][typeof(TInterface)];
         }
-        #endregion
+
+        #endregion Instance Management
     }
 }
