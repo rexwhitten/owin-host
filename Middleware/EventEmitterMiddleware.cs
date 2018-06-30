@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace apistation.owin.Middleware
@@ -41,7 +39,7 @@ namespace apistation.owin.Middleware
             }
             catch (Exception x)
             {
-                if(_channel != null)
+                if (_channel != null)
                 {
                     _channel.Emit(x.GetType(), x);
                 }

@@ -1,0 +1,819 @@
+﻿{
+  "swagger": "2.0",
+  "info": {
+    "title": "PolicyService",
+    "version": "1.0.0",
+    "description": "PolicyService"
+  },
+  "paths": {
+    "/Account": {
+      "get": {
+        "operationId": "getAccount",
+        "responses": {
+          "200": {
+            "description": "The operation was successful.",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            }
+          }
+        },
+        "produces": [ "application/json" ],
+        "description": "Retrieve Account"
+      },
+      "post": {
+        "operationId": "postAccount",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Insert a Account",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            },
+            "description": "The request body for the operation",
+            "required": true
+          }
+        ]
+      },
+      "put": {
+        "operationId": "putAccount",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Update Account",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            },
+            "description": "The request body for the operation",
+            "required": true
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "deleteAccount",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "produces": [ "application/json" ],
+        "description": "Remove from Account"
+      },
+      "options": {
+        "operationId": "optionsAccount",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Retrieve options"
+      },
+      "head": {
+        "operationId": "headAccount",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "description": "Retrieve Account header"
+      },
+      "patch": {
+        "operationId": "patchAccount",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Update Account ",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            },
+            "description": "The request body for the operation",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/Producer": {
+      "get": {
+        "operationId": "getProducer",
+        "responses": {
+          "200": {
+            "description": "The operation was successful.",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            }
+          }
+        },
+        "produces": [ "application/json" ],
+        "description": "Retrieve Producer"
+      },
+      "post": {
+        "operationId": "postProducer",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Insert a Producer",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            },
+            "description": "The request body for the operation",
+            "required": true
+          }
+        ]
+      },
+      "put": {
+        "operationId": "putProducer",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Update Producer",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            },
+            "description": "The request body for the operation",
+            "required": true
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "deleteProducer",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "produces": [ "application/json" ],
+        "description": "Remove from Producer"
+      },
+      "options": {
+        "operationId": "optionsProducer",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Retrieve options"
+      },
+      "head": {
+        "operationId": "headProducer",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "description": "Retrieve Producer header"
+      },
+      "patch": {
+        "operationId": "patchProducer",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Update Producer ",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            },
+            "description": "The request body for the operation",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/Policy": {
+      "get": {
+        "operationId": "getPolicy",
+        "responses": {
+          "200": {
+            "description": "The operation was successful.",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            }
+          }
+        },
+        "produces": [ "application/json" ],
+        "description": "Retrieve Policy"
+      },
+      "post": {
+        "operationId": "postPolicy",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Insert a Policy",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            },
+            "description": "The request body for the operation",
+            "required": true
+          }
+        ]
+      },
+      "put": {
+        "operationId": "putPolicy",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Update Policy",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            },
+            "description": "The request body for the operation",
+            "required": true
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "deletePolicy",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "produces": [ "application/json" ],
+        "description": "Remove from Policy"
+      },
+      "options": {
+        "operationId": "optionsPolicy",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Retrieve options"
+      },
+      "head": {
+        "operationId": "headPolicy",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "description": "Retrieve Policy header"
+      },
+      "patch": {
+        "operationId": "patchPolicy",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Update Policy ",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            },
+            "description": "The request body for the operation",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/Party": {
+      "get": {
+        "operationId": "getParty",
+        "responses": {
+          "200": {
+            "description": "The operation was successful.",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            }
+          }
+        },
+        "produces": [ "application/json" ],
+        "description": "Retrieve Party"
+      },
+      "post": {
+        "operationId": "postParty",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Insert a Party",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            },
+            "description": "The request body for the operation",
+            "required": true
+          }
+        ]
+      },
+      "put": {
+        "operationId": "putParty",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Update Party",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            },
+            "description": "The request body for the operation",
+            "required": true
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "deleteParty",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "produces": [ "application/json" ],
+        "description": "Remove from Party"
+      },
+      "options": {
+        "operationId": "optionsParty",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Retrieve options"
+      },
+      "head": {
+        "operationId": "headParty",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "description": "Retrieve Party header"
+      },
+      "patch": {
+        "operationId": "patchParty",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Update Party ",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            },
+            "description": "The request body for the operation",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/Transaction": {
+      "get": {
+        "operationId": "getTransaction",
+        "responses": {
+          "200": {
+            "description": "The operation was successful.",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            }
+          }
+        },
+        "produces": [ "application/json" ],
+        "description": "Retrieve Transaction"
+      },
+      "post": {
+        "operationId": "postTransaction",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Insert a Transaction",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            },
+            "description": "The request body for the operation",
+            "required": true
+          }
+        ]
+      },
+      "put": {
+        "operationId": "putTransaction",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Update Transaction",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            },
+            "description": "The request body for the operation",
+            "required": true
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "deleteTransaction",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "produces": [ "application/json" ],
+        "description": "Remove from Transaction"
+      },
+      "options": {
+        "operationId": "optionsTransaction",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Retrieve options"
+      },
+      "head": {
+        "operationId": "headTransaction",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "description": "Retrieve Transaction header"
+      },
+      "patch": {
+        "operationId": "patchTransaction",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Update Transaction ",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            },
+            "description": "The request body for the operation",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/Coverage": {
+      "get": {
+        "operationId": "getCoverage",
+        "responses": {
+          "200": {
+            "description": "The operation was successful.",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            }
+          }
+        },
+        "produces": [ "application/json" ],
+        "description": "Retrieve Coverage"
+      },
+      "post": {
+        "operationId": "postCoverage",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Insert a Coverage",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            },
+            "description": "The request body for the operation",
+            "required": true
+          }
+        ]
+      },
+      "put": {
+        "operationId": "putCoverage",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Update Coverage",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            },
+            "description": "The request body for the operation",
+            "required": true
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "deleteCoverage",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "produces": [ "application/json" ],
+        "description": "Remove from Coverage"
+      },
+      "options": {
+        "operationId": "optionsCoverage",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Retrieve options"
+      },
+      "head": {
+        "operationId": "headCoverage",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "description": "Retrieve Coverage header"
+      },
+      "patch": {
+        "operationId": "patchCoverage",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Update Coverage ",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            },
+            "description": "The request body for the operation",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/Claim": {
+      "get": {
+        "operationId": "getClaim",
+        "responses": {
+          "200": {
+            "description": "The operation was successful.",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            }
+          }
+        },
+        "produces": [ "application/json" ],
+        "description": "Retrieve Claim"
+      },
+      "post": {
+        "operationId": "postClaim",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Insert a Claim",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            },
+            "description": "The request body for the operation",
+            "required": true
+          }
+        ]
+      },
+      "put": {
+        "operationId": "putClaim",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Update Claim",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            },
+            "description": "The request body for the operation",
+            "required": true
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "deleteClaim",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "produces": [ "application/json" ],
+        "description": "Remove from Claim"
+      },
+      "options": {
+        "operationId": "optionsClaim",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Retrieve options"
+      },
+      "head": {
+        "operationId": "headClaim",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "description": "Retrieve Claim header"
+      },
+      "patch": {
+        "operationId": "patchClaim",
+        "responses": {
+          "200": {
+            "description": "The operation was successful."
+          }
+        },
+        "consumes": [ "application/json" ],
+        "produces": [ "application/json" ],
+        "description": "Update Claim ",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            },
+            "description": "The request body for the operation",
+            "required": true
+          }
+        ]
+      }
+    }
+  },
+  "basePath": "/policyservice/v1",
+  "definitions": {
+    "Policy": {
+      "type": "object",
+      "properties": {
+        "Transactions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Transaction"
+          }
+        }
+      }
+    },
+    "Transaction": {
+      "type": "object",
+      "properties": {
+        "SysKey": {
+          "type": "integer"
+        },
+        "Documents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Document"
+          }
+        }
+      },
+      "required": [ "SysKey" ]
+    },
+    "Document": {
+      "type": "object"
+    }
+  }
+}

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using apistation.owin.Depends;
 using Microsoft.Owin;
-using apistation.owin.Depends;
+using System;
+using System.Collections;
+using System.Threading.Tasks;
 
 namespace apistation.owin.Commands
 {
@@ -14,7 +11,7 @@ namespace apistation.owin.Commands
     {
         private ICache _cache;
         private readonly DateTime _start;
-        private  DateTime _stop;
+        private DateTime _stop;
         private readonly DateTime _timeIndex;
 
         public StatusGetCommand(ICache cache)

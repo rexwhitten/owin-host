@@ -1,16 +1,10 @@
-﻿using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using apistation.owin.Models;
-using System.Collections.ObjectModel;
+﻿using apistation.owin.Models;
+using StackExchange.Redis;
 using System.Collections;
+using System.Linq;
 
 namespace apistation.owin.Depends
 {
-    
     /// <summary>
     /// Redis Cache Implementation
     /// </summary>
@@ -20,6 +14,7 @@ namespace apistation.owin.Depends
         private IDatabase _db;
 
         #region Constructors
+
         public RedisCache()
         {
             _db = redis.GetDatabase();
@@ -53,6 +48,7 @@ namespace apistation.owin.Depends
         {
             return hashEntry.Select(h => new HashEntry(h.Field, h.Value)).ToArray();
         }
-        #endregion
+
+        #endregion Constructors
     }
 }

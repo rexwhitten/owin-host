@@ -1,18 +1,25 @@
-﻿using apistation.owin.Depends;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using apistation.owin.Depends;
 using apistation.owin.Models;
 using Microsoft.Owin;
-using System.Collections;
-using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
-namespace apistation.owin.Commands
+namespace apistation.owin.Commands.Policy
 {
-    [CommandOptions("post", "/*")]
-    public class DefaultPostCommand : IPostCommand
+    [CommandOptions("POST","/Policy")]
+    public class PolicyPostCommand : IPostCommand
     {
-        private readonly ICache _cache;
+        private ILog _log;
+        private ICache _cache;
 
-        public DefaultPostCommand(ICache cache)
+        public PolicyPostCommand(ILog log, ICache cache)
         {
+            _log = log;
             _cache = cache;
         }
 
@@ -23,6 +30,7 @@ namespace apistation.owin.Commands
         public Task<Hashtable> Invoke(IOwinContext context)
         {
             var body = new Hashtable();
+            _log.Log("Creating policy");
             if (!_cache.HashExists(context.Request.Path.Value, "@body"))
             {
                 switch (context.Request.ContentType)
@@ -32,6 +40,7 @@ namespace apistation.owin.Commands
                         body.Add("result", _cache.HashSet(context.Request.Path.Value, new EntryModel[1] {
                                             new EntryModel("@body", input)
                                         }));
+                        _log.Log("Policy created successful");
                         context.Response.StatusCode = 202;
                         break;
                 }

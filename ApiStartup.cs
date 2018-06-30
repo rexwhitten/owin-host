@@ -1,25 +1,20 @@
 ﻿using Microsoft.Owin;
 using Owin;
-using StackExchange.Redis;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 [assembly: OwinStartup(typeof(apistation.owin.ApiStartup))]
+
 namespace apistation.owin
 {
     using Commands;
     using Depends;
     using LightInject;
     using Middleware;
-    using Models;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using System.Collections;
-
-    using AppFunc = Func<IOwinContext, Task>;
+    using System.IO;
 
     public class ApiStartup
     {
@@ -27,6 +22,7 @@ namespace apistation.owin
         internal static IServiceContainer Container = new ServiceContainer();
 
         #region Constructors
+
         /// <summary>
         /// api startup ctor
         /// </summary>
@@ -35,33 +31,38 @@ namespace apistation.owin
         {
             _baseUrl = baseUrl;
         }
-        #endregion
+
+        #endregion Constructors
 
         public void Configuration(IAppBuilder app)
         {
             #region welcome page
+
             app.UseWelcomePage(new Microsoft.Owin.Diagnostics.WelcomePageOptions()
             {
-                Path = new PathString("/welcome")
+                Path = new PathString("/")
             });
-            #endregion
 
-            #region  Composition of dependecies
+            #endregion welcome page
+
+            #region Composition of dependecies
+
             Container.Register<IAuth, DefaultAuth>();
             Container.Register<ILog, DefaultLog>();
             Container.Register<ICache, DefaultCache>();
             Container.Register<IChannel, DefaultChannel>();
-            Container.Register<IRouter, DefaultRouter>();
+            Container.Register<IRouter, DefaultCommandRouter>();
 
             // owin middleware
             app.Use(typeof(LogMiddleware), Container.GetInstance<ILog>());
             app.Use(typeof(AuthMiddleware), Container.GetInstance<IAuth>());
             app.Use(typeof(EventEmitterMiddleware), Container.GetInstance<IChannel>());
-            #endregion
 
-            #region  handles all api requests
+            #endregion Composition of dependecies
+
+            #region handles all api requests
+
             // find modules (assemblies and load them)
-            
 
             app.Run(context =>
             {
@@ -72,10 +73,15 @@ namespace apistation.owin
 
                 context.Response.StatusCode = 404; // default status code
                 context.Response.Headers.Add("Content-Type", new string[] { "application/json" });
+                
+                // Swagger Model
+                var model = JObject.Parse(File.ReadAllText(ApiOptions.SwaggerPath));
+
+                router.Build(model);
 
                 try
                 {
-                    // CQRS 
+                    // CQRS
                     ICommand command = router.Route(context.Request);
                     body = command.Invoke(context).Result;
                 }
@@ -87,7 +93,8 @@ namespace apistation.owin
 
                 return context.Response.WriteAsync(JsonConvert.SerializeObject(body));
             });
-            #endregion
+
+            #endregion handles all api requests
         }
     }
 }

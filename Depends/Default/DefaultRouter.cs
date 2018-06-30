@@ -1,58 +1,77 @@
-﻿using System;
+﻿using apistation.owin.Commands;
+using apistation.owin.Support;
+using LightInject;
+using Microsoft.Owin;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using apistation.owin.Commands;
-using Microsoft.Owin;
 using System.Reflection;
-using LightInject;
-using apistation.owin.Support;
+using NSwag;
+using NSwag.Collections;
+using NJsonSchema;
 
 namespace apistation.owin.Depends
 {
-    public class DefaultRouter : IRouter
+    public class DefaultCommandRouter : IRouter
     {
         private static IServiceContainer CommandContainer;
-
+        private ILog _log;
         private IDictionary<String, Type> _get;
         private IDictionary<String, Type> _put;
         private IDictionary<String, Type> _post;
         private IDictionary<String, Type> _delete;
+
+        // swagger defined types
+        private IDictionary<String, Type> _routes;
+
         private readonly ICommand defaultCommand;
 
-        public DefaultRouter()
+        private JObject _model = null;
+        private IEnumerable<JToken> _paths;
+
+        public DefaultCommandRouter(ILog log)
         {
+            _log = log;
+            _routes = new Dictionary<string, Type>();
             _get = new Dictionary<String, Type>();
             _put = new Dictionary<String, Type>();
             _post = new Dictionary<String, Type>();
             _delete = new Dictionary<String, Type>();
-
             defaultCommand = new StatusGetCommand(new DefaultCache());
-
-            // scan for other commands
             StartCommandScan();
         }
 
         public ICommand Route(IOwinRequest request)
         {
             ICommand command = new DefaultCommand();
-            switch (request.Method)
+
+            bool valid = this.validateRequest(request);
+
+            // fail safe - for now if any non valid route is found handle normally
+            if (valid)
             {
-                case "GET":
-                    command = SelectCommand(_get, request.Path.Value, typeof(DefaultGetCommand));
-                    break;
-                case "POST":
-                    command = SelectCommand(_post, request.Path.Value, typeof(DefaultPostCommand));
-                    break;
-                case "PUT":
-                    command = SelectCommand(_put, request.Path.Value, typeof(DefaultPutCommand));
-                    break;
-                case "DELETE":
-                    command = SelectCommand(_delete, request.Path.Value, typeof(DefaultDeleteCommand));
-                    break;
-                default:
-                    break;
+                switch (request.Method)
+                {
+                    case "GET":
+                        command = SelectCommand(_get, request.Path.Value, typeof(DefaultGetCommand));
+                        break;
+
+                    case "POST":
+                        command = SelectCommand(_post, request.Path.Value, typeof(DefaultPostCommand));
+                        break;
+
+                    case "PUT":
+                        command = SelectCommand(_put, request.Path.Value, typeof(DefaultPutCommand));
+                        break;
+
+                    case "DELETE":
+                        command = SelectCommand(_delete, request.Path.Value, typeof(DefaultDeleteCommand));
+                        break;
+
+                    default:
+                        break;
+                }
             }
 
             return command;
@@ -75,16 +94,16 @@ namespace apistation.owin.Depends
                 {
                     switch (commandOptions.First().Method.ToLower())
                     {
-                        case "get": // need type constraints
+                        case "get": // need query syntax (odata)
                             _get.Add(commandOptions.First().PathExpression, command);
                             break;
-                        case "post": // need type constraints
+                        case "post": // need type constraints ?
                             _post.Add(commandOptions.First().PathExpression, command);
                             break;
-                        case "put": // need type constraints
+                        case "put": // need type constraints ?
                             _put.Add(commandOptions.First().PathExpression, command);
                             break;
-                        case "delete":// need type constraints
+                        case "delete":  // need type constraints ?
                             _delete.Add(commandOptions.First().PathExpression, command);
                             break;
                     }
@@ -102,11 +121,38 @@ namespace apistation.owin.Depends
             // match algorithm results
             if (matches.Any())
             {
-                var match = matches.First();
+                var match = matches.OrderByDescending(r => r.Key).First();
                 return (ICommand)Activator.CreateInstance(match.Value, ApiStartup.Container.Create<ICache>());
             }
 
             return (ICommand)Activator.CreateInstance(defaultCommand.GetType(), ApiStartup.Container.Create<ICache>());
+        }
+
+        private bool validateRequest(IOwinRequest request)
+        {
+            //return this._paths.Any(p => p.ToString().StartsWith(request.Path.Value));
+            return this._routes.Any(r => r.Key.StartsWith(request.Path.Value));
+        }
+
+        public void Build(JObject model)
+        {
+            try
+            {
+                if (model != null)
+                {
+                    var modelDoc = NSwag.SwaggerDocument.FromJsonAsync(model.ToString()).Result;
+                    _model = model;
+                    foreach(var path in modelDoc.Paths)
+                    {
+                        Console.WriteLine("{0}", path.Key);
+                        this._routes.Add(path.Key, typeof(JObject));
+                    }
+                }
+            }
+            catch (Newtonsoft.Json.JsonException jsonError)
+            {
+                _log.Log(jsonError);
+            }
         }
     }
 }

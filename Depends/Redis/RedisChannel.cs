@@ -1,10 +1,6 @@
 ﻿using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace apistation.owin.Depends
 {
@@ -13,18 +9,19 @@ namespace apistation.owin.Depends
     /// </summary>
     public class RedisChannel : IChannel
     {
-        static IConnectionMultiplexer redis = ConnectionMultiplexer.Connect("localhost");
+        private static IConnectionMultiplexer redis = ConnectionMultiplexer.Connect("localhost");
         private ISubscriber _sub = redis.GetSubscriber();
 
         #region constructor
+
         public RedisChannel()
         {
-
         }
-        #endregion
+
+        #endregion constructor
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <typeparam name="TEvent"></typeparam>
         /// <param name="selector"></param>

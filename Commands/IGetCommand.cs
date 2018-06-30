@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace apistation.owin.Commands
+﻿namespace apistation.owin.Commands
 {
-    
     public interface IGetCommand : ICommand
     {
-
     }
 }

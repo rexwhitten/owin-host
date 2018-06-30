@@ -31,29 +31,21 @@ namespace apistation.owin.Middleware
 
         public async Task Invoke(IDictionary<string, object> environment)
         {
-            try
+            IOwinContext context = new OwinContext(environment);
+
+            if (_auth.IsAuthenticated(context.Request) == true)
             {
-                IOwinContext context = new OwinContext(environment);
-
-                if (_auth.IsAuthenticated(context.Request) == true)
-                {
-                    await _next(environment); // continue
-                }
-                else
-                {
-                    // forbidden
-                    context.Response.StatusCode = 401;
-                    await context.Response.WriteAsync("{}");
-
-                    // unauthorized
-                    context.Response.StatusCode = 401;
-                    await context.Response.WriteAsync("{}");
-                }
+                await _next(environment); // continue
             }
-            catch (Exception x)
+            else
             {
-                Console.WriteLine("Error in Auth Middleware");
-                Console.WriteLine(x.Message);
+                // forbidden
+                context.Response.StatusCode = 401;
+                await context.Response.WriteAsync("{}");
+
+                // unauthorized
+                context.Response.StatusCode = 401;
+                await context.Response.WriteAsync("{}");
             }
         }
     }

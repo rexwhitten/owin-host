@@ -1,10 +1,11 @@
-﻿using System;
-using Microsoft.Owin.Hosting;
-using System.IO;
+﻿using Microsoft.Owin.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Threading.Tasks;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using System.Configuration;
 
 namespace apistation.owin
 {
@@ -32,34 +33,24 @@ namespace apistation.owin
 
     public class Program
     {
-        public static IDictionary<string,string> Options { get; set; }
+        public static IDictionary<string, string> Options { get; set; }
 
         /// <summary>
         /// Main Program Entry Points
         /// </summary>
         /// <param name="args"></param>
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             #region load config
             var options = new StartOptions();
-            options.AppStartup = "ApiStartup";
-            options.Urls.Add("http://127.0.0.1:9980");
-            Options = JsonConvert.DeserializeObject<IDictionary<string, string>>(File.ReadAllText("server.json"));
-            #endregion
-
-            if (args.Length > 0)
-            {
-                #region custom arguments (input minimization)
-                options.Urls.Add(args[0]); // owin http://127.0.0.1:9980
-                options.AppStartup = args[1]; // owin http://127.0.0.1:9980 ApiStartup
-                                              // owin http://127.0.0.1:9980 ApiStartup server.config
-
-                #endregion
-            }
-
-            using (WebApp.Start<ApiStartup>("http://127.0.0.1:9980"))
+            options.AppStartup = ApiOptions.AppStartup;
+            options.Urls.Add(ApiOptions.Url);;
+            #endregion load config
+            
+            using (WebApp.Start<ApiStartup>(options))
             {
                 Console.WriteLine("Ready.");
+                Console.WriteLine(ApiOptions.Url);
                 Console.ReadKey();
             }
         }

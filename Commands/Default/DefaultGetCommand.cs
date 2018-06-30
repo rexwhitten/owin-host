@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using apistation.owin.Depends;
 using Microsoft.Owin;
-using apistation.owin.Depends;
+using System.Collections;
+using System.Threading.Tasks;
 
 namespace apistation.owin.Commands
 {
@@ -21,12 +17,12 @@ namespace apistation.owin.Commands
 
         public void Dispose()
         {
-           
         }
 
         public Task<Hashtable> Invoke(IOwinContext context)
         {
             #region http:get
+
             var body = new Hashtable();
             if (_cache.HashExists(context.Request.Path.Value, "@body"))
             {
@@ -36,7 +32,7 @@ namespace apistation.owin.Commands
             else
             {
                 var result = _cache.HashGet(context.Request.Path.Value, "@body");
-                if(result == null || result.Count == 0)
+                if (result == null || result.Count == 0)
                 {
                     context.Response.StatusCode = 404;
                 }
@@ -47,7 +43,8 @@ namespace apistation.owin.Commands
                 }
             }
             return Task.FromResult(body);
-            #endregion
+
+            #endregion http:get
         }
     }
 }
