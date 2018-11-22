@@ -36,8 +36,6 @@ namespace apistation.owin.Middleware
 
             if (_auth.IsAuthenticated(context.Request) == true)
             {
-                IOwinContext context = new OwinContext(environment);
-                
                 if (_auth.IsAuthenticated(context.Request) == true)
                 {
                     await _next(environment); // continue

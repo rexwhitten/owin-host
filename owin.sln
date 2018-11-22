@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.25302.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "owin", "owin.csproj", "{80F838DF-D09B-422C-96EF-BD75976435C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "owin.tests", "tests\owin.tests\owin.tests.csproj", "{81344355-ECE3-408D-8FB8-67DA30AECCBF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,12 +15,11 @@ Global
 		{80F838DF-D09B-422C-96EF-BD75976435C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80F838DF-D09B-422C-96EF-BD75976435C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80F838DF-D09B-422C-96EF-BD75976435C6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{81344355-ECE3-408D-8FB8-67DA30AECCBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{81344355-ECE3-408D-8FB8-67DA30AECCBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{81344355-ECE3-408D-8FB8-67DA30AECCBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{81344355-ECE3-408D-8FB8-67DA30AECCBF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {19D399FD-81A3-432E-9D65-4983AC261A66}
 	EndGlobalSection
 EndGlobal

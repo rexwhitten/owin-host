@@ -12,7 +12,5 @@ namespace apistation.owin
         public static string AppStartup { get { return ConfigurationManager.AppSettings["owin: AppStartup"]; } }
 
         public static string Url { get { return ConfigurationManager.AppSettings["api:Url"]; } }
-
-        public static string SwaggerPath { get { return ConfigurationManager.AppSettings["swagger:Path"]; } }
     }
 }

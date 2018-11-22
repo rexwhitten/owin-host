@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace apistation.owin.Commands
 {
     [CommandOptions("delete", "/*")]
-    public class DefaultDeleteCommand : ICommand
+    public class DefaultDeleteCommand : IDeleteCommand
     {
         private readonly ICache _cache;
 

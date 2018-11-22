@@ -7,7 +7,5 @@ namespace apistation.owin.Depends
     public interface IRouter
     {
         ICommand Route(IOwinRequest request);
-
-        void Build(JObject model);
     }
 }
