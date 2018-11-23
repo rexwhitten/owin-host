@@ -2,8 +2,6 @@
 
 namespace apistation.owin.Depends
 {
-    using Newtonsoft.Json;
-
     public class DefaultLog : ILog
     {
         public DefaultLog()
@@ -15,9 +13,9 @@ namespace apistation.owin.Depends
             Console.WriteLine(string.Format("ERROR:{0}", exception.Message));
         }
 
-        public void Log(object data)
+        public void Log(string message)
         {
-            Console.WriteLine(string.Format("{0}:{1}", DateTime.Now.ToString(), JsonConvert.SerializeObject(data)));
+            Console.WriteLine(message);
         }
     }
 }

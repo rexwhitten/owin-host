@@ -7,7 +7,6 @@ namespace apistation.owin.Middleware
     using Depends;
     using Microsoft.Owin;
     using AppFunc = Func<IDictionary<string, object>, Task>;
-    using Microsoft.Owin.Security.OAuth;
 
     public class AuthMiddleware
     {

@@ -44,7 +44,6 @@ namespace apistation.owin.Middleware
             }
             finally
             {
-
                 await _next(environment); // comntinue
             }
         }

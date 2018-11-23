@@ -1,15 +1,6 @@
 ﻿using apistation.owin.Commands;
-using apistation.owin.Support;
 using LightInject;
 using Microsoft.Owin;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using NSwag;
-using NSwag.Collections;
-using NJsonSchema;
 
 namespace apistation.owin.Depends
 {
@@ -19,34 +10,35 @@ namespace apistation.owin.Depends
 
         public DefaultCommandRouter(ILog log)
         {
-            _log = log;    
+            _log = log;
         }
 
         public ICommand Route(IOwinRequest request)
         {
             ICommand cmd = ApiStartup.Container.GetInstance<IGetCommand>("default");
 
-            _log.Log(request);
-
             switch (request.Method.ToLower())
             {
                 case "get":
                     cmd = ApiStartup.Container.Create<IGetCommand>();
                     break;
+
                 case "post":
                     cmd = ApiStartup.Container.Create<IPostCommand>();
                     break;
+
                 case "put":
                     cmd = ApiStartup.Container.Create<IPutCommand>();
                     break;
+
                 case "delete":
                     cmd = ApiStartup.Container.Create<IDeleteCommand>();
                     break;
+
                 default:
                     break;
             }
 
-            _log.Log(cmd);
             return cmd;
         }
     }

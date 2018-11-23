@@ -1,11 +1,9 @@
 ﻿using Microsoft.Owin.Hosting;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using System.Configuration;
 
 namespace apistation.owin
 {
@@ -42,11 +40,13 @@ namespace apistation.owin
         private static void Main(string[] args)
         {
             #region load config
+
             var options = new StartOptions();
             options.AppStartup = ApiOptions.AppStartup;
-            options.Urls.Add(ApiOptions.Url);;
+            options.Urls.Add(ApiOptions.Url); ;
+
             #endregion load config
-            
+
             using (WebApp.Start<ApiStartup>(options))
             {
                 Console.WriteLine("Ready.");

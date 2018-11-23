@@ -129,7 +129,6 @@
     <Compile Include="Commands\IGetCommand.cs" />
     <Compile Include="Commands\IPostCommand.cs" />
     <Compile Include="Commands\IPutCommand.cs" />
-    <Compile Include="Commands\Policy\PolicyPostCommand.cs" />
     <Compile Include="Commands\StatusGetCommand.cs" />
     <Compile Include="Depends\Default\DefaultAuth.cs" />
     <Compile Include="Depends\Default\DefaultCache.cs" />

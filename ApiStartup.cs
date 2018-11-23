@@ -1,21 +1,17 @@
-﻿using Microsoft.Owin;
-using Owin;
-using System;
-using System.Threading.Tasks;
-using LightInject;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Collections;
-using System.IO;
+﻿using apistation.owin.Commands;
 using apistation.owin.Depends;
 using apistation.owin.Middleware;
-using apistation.owin.Commands;
+using LightInject;
+using Microsoft.Owin;
+using Newtonsoft.Json;
+using Owin;
+using System;
+using System.Collections;
 
 [assembly: OwinStartup(typeof(apistation.owin.ApiStartup))]
 
 namespace apistation.owin
 {
-    
     public class ApiStartup
     {
         private readonly string _baseUrl;
@@ -42,14 +38,15 @@ namespace apistation.owin
                 Path = new PathString("/")
             });
 
-            #region  Composition of dependecies
+            #region Composition of dependecies
+
             Container.Register<IAuth, DefaultAuth>();
             Container.Register<ILog, DefaultLog>();
             Container.Register<ICache, DefaultCache>();
             Container.Register<IChannel, DefaultChannel>();
             Container.Register<IRouter, DefaultCommandRouter>();
 
-            // commands 
+            // commands
             Container.Register<IGetCommand, DefaultGetCommand>();
             Container.Register<IPostCommand, DefaultPostCommand>();
             Container.Register<IPutCommand, DefaultPutCommand>();
@@ -66,6 +63,7 @@ namespace apistation.owin
             #endregion Composition of dependecies
 
             #region handles all api requests
+
             app.Run(context =>
             {
                 var cache = Container.Create<ICache>();
@@ -90,7 +88,8 @@ namespace apistation.owin
 
                 return context.Response.WriteAsync(JsonConvert.SerializeObject(body));
             });
-            #endregion
+
+            #endregion handles all api requests
         }
     }
 }

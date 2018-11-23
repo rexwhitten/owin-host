@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Owin.Security.Infrastructure;
+﻿using Microsoft.Owin.Security.Infrastructure;
 using Microsoft.Owin.Security.OAuth;
+using System.Threading.Tasks;
 
 namespace apistation.owin.Depends.Default
 {
@@ -24,12 +20,10 @@ namespace apistation.owin.Depends.Default
 
         public void CreateAuthenticationCode(AuthenticationTokenCreateContext obj)
         {
-            
         }
 
         public void CreateRefreshToken(AuthenticationTokenCreateContext obj)
         {
-            
         }
 
         public Task GrantClientCredetails(OAuthGrantClientCredentialsContext arg)
@@ -44,12 +38,10 @@ namespace apistation.owin.Depends.Default
 
         public void ReceiveAuthenticationCode(AuthenticationTokenReceiveContext obj)
         {
-            
         }
 
         public void ReceiveRefreshToken(AuthenticationTokenReceiveContext obj)
         {
-            
         }
 
         public Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext arg)
