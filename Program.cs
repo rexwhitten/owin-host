@@ -16,17 +16,19 @@ namespace apistation.owin
             return reader.ReadToEnd();
         }
 
-        public static Task<string> ReadAsStringAsync(this Stream stream)
+        public static async Task<string> ReadAsStringAsync(this Stream stream)
         {
             // convert stream to string
             StreamReader reader = new StreamReader(stream);
-            return reader.ReadToEndAsync();
+            return await reader.ReadToEndAsync();
         }
 
         public static JObject ToJObject(this Stream stream)
         {
             return JObject.Parse(stream.ReadAsString());
         }
+
+
     }
 
     public class Program

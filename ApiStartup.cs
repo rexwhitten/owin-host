@@ -1,6 +1,7 @@
 ﻿using apistation.owin.Commands;
 using apistation.owin.Depends;
 using apistation.owin.Middleware;
+using apistation.owin.Setup;
 using LightInject;
 using Microsoft.Owin;
 using Newtonsoft.Json;
@@ -17,7 +18,7 @@ namespace apistation.owin
         private readonly string _baseUrl;
 
         public static IServiceContainer Container = new ServiceContainer();
-
+        
         #region Constructors
 
         /// <summary>
@@ -33,41 +34,13 @@ namespace apistation.owin
 
         public void Configuration(IAppBuilder app)
         {
-            app.UseWelcomePage(new Microsoft.Owin.Diagnostics.WelcomePageOptions()
-            {
-                Path = new PathString("/")
-            });
-
-            #region Composition of dependecies
-
-            Container.Register<IAuth, DefaultAuth>();
-            Container.Register<ILog, DefaultLog>();
-            Container.Register<ICache, DefaultCache>();
-            Container.Register<IChannel, DefaultChannel>();
-            Container.Register<IRouter, DefaultCommandRouter>();
-
-            // commands
-            Container.Register<IGetCommand, DefaultGetCommand>();
-            Container.Register<IPostCommand, DefaultPostCommand>();
-            Container.Register<IPutCommand, DefaultPutCommand>();
-            Container.Register<IDeleteCommand, DefaultDeleteCommand>();
-
-            // commands specialized
-            Container.Register<IGetCommand, StatusGetCommand>("default");
-
-            // owin middleware
-            app.Use(typeof(LogMiddleware), Container.GetInstance<ILog>());
-            app.Use(typeof(AuthMiddleware), Container.GetInstance<IAuth>());
-            app.Use(typeof(EventEmitterMiddleware), Container.GetInstance<IChannel>());
-
-            #endregion Composition of dependecies
+            Container = ContainerSetup.Setup(app);
+            OwinSetup.Setup(app);
 
             #region handles all api requests
-
-            app.Run(context =>
+            // CQRS EXECUTION
+            app.Run((context =>
             {
-                var cache = Container.Create<ICache>();
-                var channel = Container.Create<IChannel>();
                 var router = Container.Create<IRouter>();
                 var body = new Hashtable();
 
@@ -87,7 +60,7 @@ namespace apistation.owin
                 }
 
                 return context.Response.WriteAsync(JsonConvert.SerializeObject(body));
-            });
+            }));
 
             #endregion handles all api requests
         }

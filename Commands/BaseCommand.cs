@@ -16,6 +16,7 @@ namespace apistation.owin.Commands
 
         public void Dispose()
         {
+
         }
 
         public Task<Hashtable> Invoke(IOwinContext context)
