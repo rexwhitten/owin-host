@@ -1,4 +1,5 @@
 ﻿using apistation.owin.Depends;
+using apistation.owin.Events;
 using Microsoft.Owin;
 using System.Collections;
 using System.Threading.Tasks;
@@ -9,10 +10,12 @@ namespace apistation.owin.Commands
     public class DefaultGetCommand : IGetCommand
     {
         private readonly ICache _cache;
+        private readonly IChannel _channel;
 
-        public DefaultGetCommand(ICache cache)
+        public DefaultGetCommand(ICache cache, IChannel channel)
         {
             _cache = cache;
+            _channel = channel;
         }
 
         public void Dispose()
@@ -34,6 +37,10 @@ namespace apistation.owin.Commands
                 var result = _cache.HashGet(context.Request.Path.Value, "@body");
                 if (result == null || result.Count == 0)
                 {
+                    _channel.Emit<NotFoundEvent>(new NotFoundEvent()
+                    {
+                        Path = context.Request.Path
+                    });
                     context.Response.StatusCode = 404;
                 }
                 else

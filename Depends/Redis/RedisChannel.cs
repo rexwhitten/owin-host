@@ -26,9 +26,9 @@ namespace apistation.owin.Depends
         /// <typeparam name="TEvent"></typeparam>
         /// <param name="selector"></param>
         /// <param name="argument"></param>
-        public void Emit<TEvent>(Type typeSelector, TEvent argument)
+        public void Emit<TEvent>(TEvent argument)
         {
-            _sub.Publish(transform(typeSelector), JsonConvert.SerializeObject(argument));
+            _sub.Publish(transform(typeof(TEvent)), JsonConvert.SerializeObject(argument));
         }
 
         private StackExchange.Redis.RedisChannel transform(Type typeSelector)
@@ -42,9 +42,9 @@ namespace apistation.owin.Depends
         /// <typeparam name="TEvent"></typeparam>
         /// <param name="selector"></param>
         /// <param name="handler"></param>
-        public void RegisterHandler<TEvent>(Type typeSelector, Action<TEvent> handler)
+        public void RegisterHandler<TEvent>(Action<TEvent> handler)
         {
-            _sub.Subscribe(transform(typeSelector), (c, v) =>
+            _sub.Subscribe(transform(typeof(TEvent)), (c, v) =>
             {
                 TEvent args = JsonConvert.DeserializeObject<TEvent>(v.ToString());
                 handler.Invoke(args);

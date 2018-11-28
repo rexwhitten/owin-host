@@ -19,7 +19,7 @@ namespace apistation.owin.Setup
             container.Register<IAuth, DefaultAuth>();
             container.Register<ILog, DefaultLog>();
             container.Register<ICache, DefaultCache>();
-            container.Register<IChannel, DefaultChannel>();
+            container.RegisterSingleton<IChannel, DefaultChannel>();
             container.Register<IRouter, DefaultCommandRouter>();
 
             // commands

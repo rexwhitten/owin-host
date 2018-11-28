@@ -36,6 +36,7 @@ namespace apistation.owin
         {
             Container = ContainerSetup.Setup(app);
             OwinSetup.Setup(app);
+            ChannelSetup.Setup(app, Container);
 
             #region handles all api requests
             // CQRS EXECUTION

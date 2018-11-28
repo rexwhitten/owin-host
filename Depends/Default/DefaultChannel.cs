@@ -1,34 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace apistation.owin.Depends
 {
     public class DefaultChannel : IChannel
     {
-        private static IDictionary<Type, Delegate> _handlers = new Dictionary<Type, Delegate>();
+        private static IDictionary<Type, Collection<Delegate>> _handlers = new Dictionary<Type, Collection<Delegate>>();
 
         public DefaultChannel()
         {
         }
 
-        public void Emit<TEvent>(Type typeSelector, TEvent argument)
+        public void Emit<TEvent>(TEvent argument)
         {
-            if (_handlers.ContainsKey(typeSelector))
+            if (_handlers.ContainsKey(typeof(TEvent)))
             {
-                _handlers[typeSelector].DynamicInvoke(argument);
+                foreach(var handler in _handlers[typeof(TEvent)])
+                {
+                    handler.DynamicInvoke(argument);
+                }
             }
         }
 
-        public void RegisterHandler<TEvent>(Type typeSelector, Action<TEvent> handler)
+        public void RegisterHandler<TEvent>(Action<TEvent> handler)
         {
-            if (!_handlers.ContainsKey(typeSelector))
+            if (!_handlers.ContainsKey(typeof(TEvent)))
             {
-                _handlers.Add(typeSelector, handler);
+                _handlers.Add(typeof(TEvent), new Collection<Delegate>());
             }
-            else
-            {
-                _handlers[typeSelector] = handler;
-            }
+
+            _handlers[typeof(TEvent)].Add(handler);
         }
     }
 }

@@ -35,13 +35,15 @@ namespace apistation.owin.Middleware
             {
                 // lets check and apply handlers waitiing
                 var context = new OwinContext(environment);
-                _channel.Emit(typeof(IOwinContext), context);
+                _channel.Emit(context);
+                _channel.Emit(context.Request);
+                _channel.Emit(context.Response);
             }
             catch (Exception x)
             {
                 if (_channel != null)
                 {
-                    _channel.Emit(x.GetType(), x);
+                    _channel.Emit(x);
                 }
             }
             finally

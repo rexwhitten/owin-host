@@ -145,7 +145,11 @@
     <Compile Include="Depends\ITripleStore.cs" />
     <Compile Include="Depends\Redis\RedisCache.cs" />
     <Compile Include="Depends\Redis\RedisChannel.cs" />
+    <Compile Include="Events\BaseEvent.cs" />
+    <Compile Include="Events\NotFoundEvent.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Handlers\BaseHandler.cs" />
+    <Compile Include="Handlers\NotFoundEventHandler.cs" />
     <Compile Include="Middleware\AuthMiddleware.cs" />
     <Compile Include="Middleware\EventEmitterMiddleware.cs" />
     <Compile Include="Middleware\LogMiddleware.cs" />
@@ -156,6 +160,7 @@
     <Compile Include="Models\MetaDataModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Setup\ChannelSetup.cs" />
     <Compile Include="Setup\ContainerSetup.cs" />
     <Compile Include="Setup\OwinSetup.cs" />
   </ItemGroup>
